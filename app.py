@@ -1,6 +1,10 @@
 import os
 from openai import AzureOpenAI
 
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
+
 endpoint = os.getenv('OpenAI_ENDPOINT')
 model_name = os.getenv('OpenAI_DEPLOY_NAME')
 subscription_key = os.getenv('OpenAI_API_KEY')
@@ -31,3 +35,8 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message.content)
+
+
+if __name__ == '__main__':
+    # 開發用；部署用 gunicorn（見下方）
+    app.run(host='0.0.0.0', debug=False)
